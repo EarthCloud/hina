@@ -3,11 +3,11 @@ ENTRY(_start)
 SECTIONS
 {
     /*
-     * In QEMU virt, OpenSBI Firmware start at 0x80200000,
+     * In QEMU virt, OpenSBI Firmware start at 0x80000000,
      * the very first 2MiB is set up for the firmware.
      * By the time OpenSBI Start, it jumps to here.
      */
-    . = 0x80200000
+    . = 0x80200000;
 
     .text : {
         /* 
@@ -27,7 +27,7 @@ SECTIONS
     }
 
     .bss : {
-        . = ALIGN(8)
+        . = ALIGN(8);
         __bss_start = .;
         *(.bss .bss.*)
         *(COMMON)
