@@ -10,3 +10,4 @@ path = "src/lib.rs"
 [[bin]]
 name = "hina"
 path = "src/main.rs"
+test = false
