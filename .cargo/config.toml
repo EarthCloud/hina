@@ -1,0 +1,7 @@
+[target.riscv64gc-unknown-none-elf]
+rustflags = [
+    "-C", "linker=rust-lld",
+    "-C", "linker-flavor=ld.lld",
+    "-C", "link-arg=-Tkernel/linker.ld",
+    "-C", "relocation-model=static",
+]
