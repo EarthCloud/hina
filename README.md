@@ -1,11 +1,13 @@
 # Hina
 
-A toy Unix-like kernel in Rust.
+> *"Just for fun."* — Linus Torvalds
 
-- Requirements: [docs/v2-requirements.md](docs/v2-requirements.md)
-- M0 requirements: [docs/m0-requirements.md](docs/m0-requirements.md)
-- Platform: RISC-V 64, QEMU virt, OpenSBI
-- Status: blank workspace; M0 not started
+Welcome.
 
-> `docs/smp-checklist.md` is an older SMP design draft.
-> `docs/v2-requirements.md` is the authoritative requirement list.
+I'm trying to make my own kernel. 
+
+I named her **Hina**. In Japanese, it is a gentle, everyday name for a girl.
+
+Hina is a Unix-like, symmetric multiprocessing (SMP) kernel written from scratch in Rust for 64-bit RISC-V. 
+
+For me, It's also a love letter to computer science.
