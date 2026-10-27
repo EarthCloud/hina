@@ -3,6 +3,8 @@
 
 use core::arch::global_asm;
 
+mod sbi;
+
 global_asm!(include_str!("entry.s"));
 
 #[unsafe(no_mangle)]

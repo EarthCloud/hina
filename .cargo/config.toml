@@ -5,3 +5,6 @@ rustflags = [
     "-C", "link-arg=-Tkernel/linker.ld",
     "-C", "relocation-model=static",
 ]
+
+[build]
+target = "riscv64gc-unknown-none-elf"
