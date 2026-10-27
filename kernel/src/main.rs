@@ -17,6 +17,6 @@ pub extern "C" fn rust_main(_hart_id: usize, _dtb: usize) -> ! {
 
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
-    console_write(b"DON'T PANIC");
+    console_write(b"DON'T PANIC\n");
     shutdown();
 }
