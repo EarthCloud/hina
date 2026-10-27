@@ -1,4 +1,4 @@
-# Hina
+# hina
 
 > *"Just for fun."* — Linus Torvalds
 
