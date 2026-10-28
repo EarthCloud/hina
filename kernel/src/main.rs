@@ -3,18 +3,41 @@
 
 use core::arch::global_asm;
 
+use kernel::platform::qemu_virt as board;
+
 use crate::sbi::shutdown;
 
 mod console;
 mod sbi;
 
-const PROMPT: &str = "[hina]: ";
+const PROMPT: &str = "[hina]:";
 
 global_asm!(include_str!("entry.s"));
 
 #[unsafe(no_mangle)]
-pub extern "C" fn rust_main(_hart_id: usize, _dtb: usize) -> ! {
-    println!("FIREEEEEEEEEEEE");
+pub extern "C" fn rust_main(hart_id: usize, dtb: usize) -> ! {
+    println!("{PROMPT} M0 boot");
+    println!("{PROMPT} boot hart: {hart_id}");
+    println!("{PROMPT} dtb: {dtb:#018x}");
+
+    println!(
+        "{PROMPT} memory: {:#x}..{:#x} ({} MiB)",
+        board::MEMORY_START,
+        board::MEMORY_END,
+        board::MEMORY_SIZE >> 20
+    );
+    println!(
+        "{PROMPT} cpus: 0,1,2,3 (timebase {})",
+        board::TIMEBASE_FREQUENCY
+    );
+    println!(
+        "{PROMPT} uart: {:#x} irq {}",
+        board::UART_BASE,
+        board::UART_IRQ
+    );
+    println!("{PROMPT} plic: {:#x}", board::PLIC_BASE);
+    println!("{PROMPT} virtio-mmio: {} devices", board::VIRTIO_COUNT);
+
     shutdown();
 }
 

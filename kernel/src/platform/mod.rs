@@ -1,7 +1,5 @@
-//! Simple and early platform infomation.
-//! I use fdt crate, since I'm not vert confidence
-//! about the parser implementation.
-//! I hate these chores all the time.
+//! Early platform information.
+//! Right now this is just a hardcoded QEMU virt table.
+//! Device tree can replace it later.
 
-pub mod fdt;
-pub mod info;
+pub mod qemu_virt;
