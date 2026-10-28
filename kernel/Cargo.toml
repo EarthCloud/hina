@@ -16,3 +16,6 @@ name = "hina"
 path = "src/main.rs"
 test = false
 bench = false
+
+[dependencies]
+fdt = { version = "=0.2.0-alpha3", default-features = false }
