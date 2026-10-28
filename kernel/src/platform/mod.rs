@@ -3,4 +3,5 @@
 //! about the parser implementation.
 //! I hate these chores all the time.
 
-mod info;
+pub mod fdt;
+pub mod info;

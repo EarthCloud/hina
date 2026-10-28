@@ -55,3 +55,39 @@ pub struct PlatformInfo {
 
     pub initrd: Option<MemoryRegion>,
 }
+
+impl Default for PlatformInfo {
+    fn default() -> Self {
+        Self {
+            memory: [MemoryRegion::default(); MAX_MEMORY_REGIONS],
+            memory_len: 0,
+            reserved: [MemoryRegion::default(); MAX_RESERVED_REGIONS],
+            reserved_len: 0,
+            cpus: [CpuInfo::default(); MAX_CPUS],
+            cpu_len: 0,
+            timebase_frequency: 0,
+            uart: None,
+            plic: None,
+            virtio_mmio: [VirtioMmioInfo::default(); MAX_VIRTIO_MMIO],
+            virtio_len: 0,
+            initrd: None,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum PlatformError {
+    BadFdt,
+    MissingCpus,
+    MissingMemory,
+    MissingTimebase,
+    MissingUartReg,
+    MissingUartIrq,
+    MissingPlicReg,
+    MissingVirtioReg,
+    MissingVirtioIrq,
+    TooManyMemoryRegions,
+    TooManyReservedRegions,
+    TooManyCpus,
+    TooManyVirtioMmio,
+}
