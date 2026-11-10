@@ -12,6 +12,9 @@ const SBI_DBG_CONSOLE_EXT: usize = 0x4442_434E;
 const SBI_DBG_CONSOLE_WRITE_FUN: usize = 0x00;
 const SBI_DBG_CONSOLE_WRITE_BYTE_FUN: usize = 0x02;
 
+const SBI_TIME_EXT: usize = 0x5449_4D45;
+const SBI_TIME_SET_TIMER_FUN: usize = 0;
+
 #[inline(always)]
 fn sbi_call(eid: usize, fid: usize, args: [usize; 6]) -> (isize, usize) {
     let [a0, a1, a2, a3, a4, a5] = args;
@@ -74,6 +77,16 @@ pub fn console_write(bytes: &[u8]) {
 
         offset += val.min(remaining);
     }
+}
+
+/// Add timer interrupt when time > stime_val
+pub fn set_timer(stime_val: u64) -> isize {
+    let (err, _) = sbi_call(
+        SBI_TIME_EXT,
+        SBI_TIME_SET_TIMER_FUN,
+        [stime_val as usize, 0, 0, 0, 0, 0],
+    );
+    err
 }
 
 pub fn shutdown() -> ! {
