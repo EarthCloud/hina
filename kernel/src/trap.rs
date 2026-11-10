@@ -4,6 +4,16 @@ use crate::csr::w_stvec;
 use crate::println;
 use crate::sbi;
 
+/// Very first TrapFrame, aligned with 16-bits
+#[repr(C)]
+pub struct TrapFrame {
+    pub x: [usize; 32],
+    pub sepc: usize,
+    pub sstatus: usize,
+    pub scause: usize,
+    pub stval: usize,
+}
+
 unsafe extern "C" {
     fn trap_entry();
 }
