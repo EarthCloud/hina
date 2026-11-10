@@ -5,6 +5,7 @@ use crate::println;
 use crate::sbi;
 
 /// Very first TrapFrame, aligned with 16-bits
+#[allow(dead_code)] // constructed by trap_entry in trap.s
 #[repr(C)]
 pub struct TrapFrame {
     pub x: [usize; 32],
@@ -34,4 +35,10 @@ pub extern "C" fn trap_panic(scause: usize, sepc: usize, stval: usize, hartid: u
     println!("stval={stval:#x}");
     println!("hartid={hartid}");
     sbi::shutdown()
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn trap_handler(frame: *mut TrapFrame) -> ! {
+    let frame = unsafe { &*frame };
+    trap_panic(frame.scause, frame.sepc, frame.stval, frame.x[4])
 }
