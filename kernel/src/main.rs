@@ -9,6 +9,7 @@ use crate::sbi::shutdown;
 
 mod console;
 mod sbi;
+mod csr;
 
 const PROMPT: &str = "[hina]:";
 
