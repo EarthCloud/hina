@@ -8,15 +8,18 @@ use kernel::platform::qemu_virt as board;
 use crate::sbi::shutdown;
 
 mod console;
-mod sbi;
 mod csr;
+mod sbi;
+mod trap;
 
-const PROMPT: &str = "[hina]:";
+const PROMPT: &str = "[hina]";
 
 global_asm!(include_str!("entry.s"));
+global_asm!(include_str!("trap.s"));
 
 #[unsafe(no_mangle)]
 pub extern "C" fn rust_main(hart_id: usize, dtb: usize) -> ! {
+    trap::init();
     println!("{PROMPT} M0 boot");
     println!("{PROMPT} boot hart: {hart_id}");
     println!("{PROMPT} dtb: {dtb:#018x}");
@@ -38,6 +41,8 @@ pub extern "C" fn rust_main(hart_id: usize, dtb: usize) -> ! {
     );
     println!("{PROMPT} plic: {:#x}", board::PLIC_BASE);
     println!("{PROMPT} virtio-mmio: {} devices", board::VIRTIO_COUNT);
+
+    unsafe { core::arch::asm!("unimp") };
 
     shutdown();
 }
