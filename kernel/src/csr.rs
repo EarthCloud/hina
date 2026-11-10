@@ -17,6 +17,7 @@ pub fn w_sstatus(value: usize) {
 }
 
 /// Supervisor Interrupt Enable
+/// Overwrites the whole CSR. For bit updates, use read-modify-write.
 #[inline(always)]
 pub fn w_sie(value: usize) {
     unsafe { asm!("csrw sie, {}",in(reg) value) }
