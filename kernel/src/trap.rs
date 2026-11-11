@@ -1,8 +1,12 @@
 //! Trap entry initialization and the minimal L1a diagnostic handler.
 
+use crate::csr::SCAUSE_CODE_MASK;
+use crate::csr::SCAUSE_INTERRUPT;
 use crate::csr::w_stvec;
 use crate::println;
 use crate::sbi;
+use crate::timer::set_next;
+use crate::timer::tick;
 
 /// Very first TrapFrame, aligned with 16-bits
 #[allow(dead_code)] // constructed by trap_entry in trap.s
@@ -38,7 +42,25 @@ pub extern "C" fn trap_panic(scause: usize, sepc: usize, stval: usize, hartid: u
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn trap_handler(frame: *mut TrapFrame) -> ! {
+pub extern "C" fn trap_handler(frame: *mut TrapFrame) {
     let frame = unsafe { &*frame };
-    trap_panic(frame.scause, frame.sepc, frame.stval, frame.x[4])
+
+    let scause = &frame.scause;
+    let is_interrupt = scause & SCAUSE_INTERRUPT != 0;
+
+    let code = scause & SCAUSE_CODE_MASK;
+
+    if is_interrupt {
+        match code {
+            5 => {
+                tick();
+                set_next();
+            }
+            _ => {
+                trap_panic(frame.scause, frame.sepc, frame.stval, frame.x[4]);
+            }
+        }
+    } else {
+        trap_panic(frame.scause, frame.sepc, frame.stval, frame.x[4]);
+    }
 }
