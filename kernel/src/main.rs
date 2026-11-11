@@ -1,7 +1,7 @@
 #![no_std]
 #![no_main]
 
-use core::arch::global_asm;
+use core::arch::{asm, global_asm};
 
 use kernel::platform::qemu_virt as board;
 
@@ -44,7 +44,11 @@ pub extern "C" fn rust_main(hart_id: usize, dtb: usize) -> ! {
     println!("{PROMPT} virtio-mmio: {} devices", board::VIRTIO_COUNT);
 
     timer::init();
-    
+
+    loop {
+        unsafe { asm!("wfi") }
+    }
+
     shutdown();
 }
 

@@ -5,6 +5,7 @@ use crate::csr::SCAUSE_INTERRUPT;
 use crate::csr::w_stvec;
 use crate::println;
 use crate::sbi;
+use crate::timer::get_ticks;
 use crate::timer::set_next;
 use crate::timer::tick;
 
@@ -55,6 +56,16 @@ pub extern "C" fn trap_handler(frame: *mut TrapFrame) {
             5 => {
                 tick();
                 set_next();
+                let n = get_ticks();
+
+                if n % 10 == 0 {
+                    println!("[hina] tick {n}");
+                }
+
+                if n >= 50 {
+                    println!("[hina] timer test done");
+                    sbi::shutdown();
+                }
             }
             _ => {
                 trap_panic(frame.scause, frame.sepc, frame.stval, frame.x[4]);
