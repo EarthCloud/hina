@@ -11,6 +11,7 @@ mod console;
 mod csr;
 mod sbi;
 mod trap;
+mod timer;
 
 const PROMPT: &str = "[hina]";
 

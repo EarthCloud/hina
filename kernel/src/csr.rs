@@ -5,6 +5,23 @@
 
 use core::arch::asm;
 
+// sie
+pub const SIE_SSIE: usize = 1 << 1;  // supervisor software
+pub const SIE_STIE: usize = 1 << 5;  // supervisor timer
+pub const SIE_SEIE: usize = 1 << 9;  // supervisor external
+
+// sstatus
+pub const SSTATUS_SIE: usize = 1 << 1;   // global interrupt enable
+pub const SSTATUS_SPIE: usize = 1 << 5;  // previous SIE
+pub const SSTATUS_SPP: usize = 1 << 8;   // previous privilege
+
+// sip
+pub const SIP_STIP: usize = 1 << 5;      // timer pending
+
+// scause
+pub const SCAUSE_INTERRUPT: usize = 1 << 63;
+pub const SCAUSE_CODE_MASK: usize = 0xff;
+
 /// Supervisor Trap Vector Base Address Register
 /// Caller must ensure `value` is 4-byte aligned and mode bits are 0.
 #[inline(always)]
