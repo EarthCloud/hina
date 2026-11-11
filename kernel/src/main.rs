@@ -10,8 +10,8 @@ use crate::sbi::shutdown;
 mod console;
 mod csr;
 mod sbi;
-mod trap;
 mod timer;
+mod trap;
 
 const PROMPT: &str = "[hina]";
 
@@ -43,6 +43,8 @@ pub extern "C" fn rust_main(hart_id: usize, dtb: usize) -> ! {
     println!("{PROMPT} plic: {:#x}", board::PLIC_BASE);
     println!("{PROMPT} virtio-mmio: {} devices", board::VIRTIO_COUNT);
 
+    timer::init();
+    
     shutdown();
 }
 
